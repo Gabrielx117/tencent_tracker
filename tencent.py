@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 #coding=utf-8
-import time,urllib
+import time,urllib,sys
 import json,re,pickle,smtplib
 from collections import Iterable
 from email import encoders
@@ -8,10 +8,10 @@ from email.header import Header
 from email.mime.text import MIMEText
 from email.utils import parseaddr, formataddr
 
-tencent_tracker='/home/xiayu/tencent/tencent.last.json'
-history='/home/xiayu/tencent/history.json'
-email='/home/xiayu/tencent/email.json'
-DEBUG=1
+tencent_tracker='%s/tencent.last.json' %sys.path[0]
+history='%s/history.json' %sys.path[0]
+email='%s/email.json' %sys.path[0]
+DEBUG=0
 from_addr = 'tj_alert@btte.net'
 #password = input('Password: ')
 smtp_server = '219.239.205.129'
