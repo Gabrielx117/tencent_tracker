@@ -8,13 +8,17 @@ from email.header import Header
 from email.mime.text import MIMEText
 from email.utils import parseaddr, formataddr
 
+DEBUG=0
 tencent_tracker='%s/tencent.last.json' %sys.path[0]
 history='%s/history.json' %sys.path[0]
 email='%s/email.json' %sys.path[0]
-DEBUG=0
-from_addr = 'tj_alert@btte.net'
-#password = input('Password: ')
-smtp_server = '219.239.205.129'
+with open(email, 'r') as f:
+    email_info = json.load(f)
+
+to_addr=email_info['to_addr']
+from_addr = email_info['from_addr']
+password = email_info['passwd']
+smtp_server = email_info['smtp_server']
 email_list=[]
 date=time.strftime("%Y%m%d", time.localtime())
 url='http://play.domain.qq.com/getdomain.php?dtime=%s' %date
@@ -48,9 +52,6 @@ with open(history, 'wb') as i: #将本次列表写入历史文件
 add=str('\n'.join(sorted(list((new.difference(old)))))) or '暂无' #新增差量
 remove=str('\n'.join(sorted(list(old.difference(new))))) or '暂无' #删除差量
 
-with open(email, 'r') as f:
-    to_addr = json.load(f)
-
 for k in to_addr.keys():
     email_list.append(_format_addr('%s <%s>' %(k,to_addr[k])))
 email_list=','.join(email_list)
@@ -68,7 +69,6 @@ if DEBUG == 1:
     print (add)
     print ('remove')
     print (str(remove))
-#server.login(from_addr, password)
+server.login(from_addr, password)
 server.sendmail(from_addr, to_addr.values(), msg.as_string())
 server.quit()
-
