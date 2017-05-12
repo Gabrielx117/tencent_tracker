@@ -56,7 +56,7 @@ for k in to_addr.keys():
     email_list.append(_format_addr('%s <%s>' %(k,to_addr[k])))
 email_list=','.join(email_list)
 msg = MIMEText('新增\n%s\n删除\n%s' % (add,remove), 'plain', 'utf-8')
-msg['From'] = _format_addr('天津网管监控 <%s>' % from_addr)
+msg['From'] = _format_addr('天津网管监控 <%s>' % str(from_addr))
 msg['To'] = email_list
 msg['Subject'] = Header('腾讯Tracker更新(%s)'%str(tracker['atime']), 'utf-8').encode()
 
