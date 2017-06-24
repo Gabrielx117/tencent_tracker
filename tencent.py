@@ -14,7 +14,7 @@ from email.mime.text import MIMEText
 from email.utils import parseaddr, formataddr
 
 DEBUG = 0
-tencent_tracker = '%s/tencent.tracker.json' % sys.path[0]
+tencent_tracker = '%s/tencent.last.json' % sys.path[0]
 history = '%s/history.json' % sys.path[0]
 email = '%s/email.json' % sys.path[0]
 
@@ -28,7 +28,7 @@ smtp_server = email_info['smtp_server']
 date = time.strftime("%Y%m%d", time.localtime())
 url = 'http://play.domain.qq.com/getdomain.php?dtime=%s' % date
 
-#urllib.request.urlretrieve(url, tencent_tracker)
+urllib.request.urlretrieve(url, tencent_tracker)
 
 
 def is_ipv4(data):  # "IPv4过滤函数"
