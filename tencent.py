@@ -69,8 +69,8 @@ remove = '\n'.join(sorted(old - new)) or '暂无'  # 删除差量
 
 
 email_list = []  # 生成收件人列表
-for k in to_addr.keys():
-    email_list.append(_format_addr('%s <%s>' % (k, to_addr[k])))
+for k,v in to_addr.items():
+    email_list.append(_format_addr('%s <%s>' % (k,v)))
 email_list = ','.join(email_list)
 
 
