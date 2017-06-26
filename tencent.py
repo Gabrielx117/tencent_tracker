@@ -21,9 +21,6 @@ email = '%s/email.json' % sys.path[0]
 with open(email, 'r', encoding='utf-8') as f:
     email_info = json.load(f)
 to_addr = email_info.get('to_addr')
-from_addr = email_info['from_addr']
-password = email_info['passwd']
-smtp_server = email_info['smtp_server']
 
 date = time.strftime("%Y%m%d", time.localtime())
 url = 'http://play.domain.qq.com/getdomain.php?dtime=%s' % date
@@ -74,16 +71,16 @@ email_list = ','.join( _format_addr('%s <%s>' % (k,v)) for k,v in to_addr.items(
 
 # 填写邮件内容
 msg = MIMEText('新增\n%s\n删除\n%s' % (add, remove), 'plain', 'utf-8')
-msg['From'] = _format_addr('天津网管监控 <%s>' % str(from_addr))
+msg['From'] = _format_addr('天津网管监控 <%s>' % email_info['from_addr'])
 msg['To'] = email_list
 msg['Subject'] = Header('腾讯Tracker更新(%s)' %
-                        str(tracker['atime'])).encode()
+                        tracker['atime']).encode()
 
 
 # 发送邮件
-server = smtplib.SMTP(smtp_server, 25)
-server.login(from_addr, password)
-server.sendmail(from_addr, to_addr.values(), msg.as_string())
+server = smtplib.SMTP(email_info['smtp_server'], 25)
+server.login(email_info['from_addr'],email_info['passwd'])
+server.sendmail(email_info['from_addr'], to_addr.values(), msg.as_string())
 server.quit()
 
 if DEBUG == 1:
